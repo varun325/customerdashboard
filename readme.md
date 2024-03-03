@@ -21,7 +21,7 @@ cd <repository-folder>
 docker compose up
 ```
 
-- Access the application in your web browser at http://localhost:3000.
+- Access the application in your web browser at http://localhost:8080.
 
 ## Folder Structure
 - api: Contains the code for the Node.js API server.
@@ -34,13 +34,12 @@ docker compose up
 > Port: 5432
 
 - API Server Configuration
-> The API server is configured to run on port 8000.
+> The API server is configured to run on port 3000.
 
 ## React Web Application
 The React web application provides a dashboard to manage customer data. It offers features such as sorting, pagination, and searching.
 
-> Additional Notes
-Ensure that ports 5432, 8000, and 3000 are not occupied by other services on your system.
+> Ensure that ports 5432, 8080, and 3000 are not occupied by other services on your system.
 
 
 
