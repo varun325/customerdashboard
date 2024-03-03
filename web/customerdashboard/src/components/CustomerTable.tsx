@@ -2,25 +2,34 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
 
-const CustomerTable = () => {
-  const [customers, setCustomers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortDirections, setSortDirections] = useState({
+interface Customer {
+  sno: number;
+  customer_name: string;
+  age: number;
+  phone: string;
+  location: string;
+  created_at: string;
+}
+
+const CustomerTable: React.FC = () => {
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortDirections, setSortDirections] = useState<Record<string, string>>({
     sno: 'asc',
     customer_name: 'asc',
     age: 'asc',
     phone: 'asc',
     location: 'asc',
-    date: 'asc',
-    time: 'asc',
+    date: 'asc', // Default sort direction for date
+    time: 'asc', // Default sort direction for time
   });
-  const [searchInput, setSearchInput] = useState('');
-  const customersPerPage = 20;
+  const [searchInput, setSearchInput] = useState<string>('');
+  const customersPerPage: number = 20;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/customers');
+        const response = await axios.get<Customer[]>('http://localhost:3000/customers');
         setCustomers(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -30,24 +39,24 @@ const CustomerTable = () => {
     fetchData();
   }, []);
 
-  const indexOfLastCustomer = currentPage * customersPerPage;
-  const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
-  let currentCustomers = customers.slice(indexOfFirstCustomer, indexOfLastCustomer);
+  const indexOfLastCustomer: number = currentPage * customersPerPage;
+  const indexOfFirstCustomer: number = indexOfLastCustomer - customersPerPage;
+  let currentCustomers: Customer[] = customers.slice(indexOfFirstCustomer, indexOfLastCustomer);
 
   // Search functionality
   if (searchInput) {
     currentCustomers = customers.filter(
-      customer =>
+      (customer) =>
         customer.customer_name.toLowerCase().includes(searchInput.toLowerCase()) ||
         customer.location.toLowerCase().includes(searchInput.toLowerCase())
     );
   }
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
-  const sortByColumn = columnKey => {
-    const direction = sortDirections[columnKey];
-    const sortedCustomers = [...customers].sort((a, b) => {
+  const sortByColumn = (columnKey: keyof Customer): void => {
+    const direction: string = sortDirections[columnKey];
+    const sortedCustomers: Customer[] = [...customers].sort((a, b) => {
       if (direction === 'asc') {
         return a[columnKey] > b[columnKey] ? 1 : -1;
       } else {
@@ -57,10 +66,8 @@ const CustomerTable = () => {
     setCustomers(sortedCustomers);
     setSortDirections({ ...sortDirections, [columnKey]: direction === 'asc' ? 'desc' : 'asc' });
   };
-  
-  
 
-  const parseDateTime = dateTimeString => {
+  const parseDateTime = (dateTimeString: string): { date: string; time: string } => {
     const dateTime = new Date(dateTimeString);
     const date = dateTime.toLocaleDateString();
     const time = dateTime.toLocaleTimeString();
@@ -71,14 +78,14 @@ const CustomerTable = () => {
     <div className="container mx-auto py-10">
       <h1 className="text-3xl font-semibold mb-6">Customers Table</h1>
       <div className="flex items-center mb-4">
-      <input
-        type="text"
-        value={searchInput}
-        onChange={e => setSearchInput(e.target.value)}
-        className="px-4 py-3 border rounded-md mr-2 text-lg" // Adjust padding and font size here
-        placeholder="Search by name or location"
-      />
-    </div>
+        <input
+          type="text"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="px-4 py-3 border rounded-md mr-2 text-lg"
+          placeholder="Search by name or location"
+        />
+      </div>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
