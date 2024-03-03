@@ -7,7 +7,7 @@ const port = 3000;
 // Configure PostgreSQL connection pool
 const pool = new Pool({
   user: 'myuser',
-  host: 'localhost',
+  host: 'postgres',
   database: 'mydatabase',
   password: 'mypassword',
   port: 5432,
@@ -15,7 +15,21 @@ const pool = new Pool({
 
 // Middleware to parse JSON request body
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+const whitelist = ['http://localhost:5173', 'http://frontend1:8080','http://frontend1:80','http://localhost:8080'];
+
+// Configure CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+// Enable CORS with the configured options
+app.use(cors(corsOptions));
 // Route to fetch all rows from the customers table
 app.get('/customers', async (req, res) => {
   try {

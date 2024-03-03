@@ -42,7 +42,7 @@ const CustomerTable: React.FC = () => {
     time: "asc", // Default sort direction for time
   });
   const [searchInput, setSearchInput] = useState<string>("");
-  const customersPerPage: number = 17;
+  const customersPerPage: number = 10;
 
   useEffect(() => {
     const fetchData = async () => {

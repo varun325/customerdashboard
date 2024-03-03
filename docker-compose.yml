@@ -14,6 +14,26 @@ services:
     networks:
       - mynetwork
 
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+
+  frontend1:
+    build:
+      context: ./web/customerdashboard
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    networks:
+      - mynetwork
+
 networks:
   mynetwork:
     driver: bridge

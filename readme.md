@@ -17,21 +17,9 @@ This repository contains a full-stack application setup using Docker, Node.js, P
 git clone <repository-url>
 cd <repository-folder>
 
-#initialize postgres
-docker-compose up
-
-#run the api
-
-cd api
-npm install
-node api.js
-
-# run the react web application
-cd ../web/customerdashboard
-npm install
-npm run dev
+#Run the project
+docker compose up
 ```
-
 
 - Access the application in your web browser at http://localhost:3000.
 
