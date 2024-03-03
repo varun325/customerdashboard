@@ -1,6 +1,9 @@
 # Full Stack Customer Dashboard application Setup Guide
-
 This repository contains a full-stack application setup using Docker, Node.js, PostgreSQL, and React.
+
+It's a simple customer table dashboard that shows data coming from a node js api:
+
+![Customer Table](screenshots/customerTable.png)
 
 ## Prerequisites
 

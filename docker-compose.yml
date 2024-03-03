@@ -25,7 +25,7 @@ services:
     networks:
       - mynetwork
 
-  frontend1:
+  frontend:
     build:
       context: ./web/customerdashboard
       dockerfile: Dockerfile
