@@ -46,8 +46,8 @@ const CustomerTable = () => {
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   const sortByColumn = columnKey => {
-    const sortedCustomers = [...currentCustomers].sort((a, b) => {
-      const direction = sortDirections[columnKey];
+    const direction = sortDirections[columnKey];
+    const sortedCustomers = [...customers].sort((a, b) => {
       if (direction === 'asc') {
         return a[columnKey] > b[columnKey] ? 1 : -1;
       } else {
@@ -55,8 +55,10 @@ const CustomerTable = () => {
       }
     });
     setCustomers(sortedCustomers);
-    setSortDirections({ ...sortDirections, [columnKey]: sortDirections[columnKey] === 'asc' ? 'desc' : 'asc' });
+    setSortDirections({ ...sortDirections, [columnKey]: direction === 'asc' ? 'desc' : 'asc' });
   };
+  
+  
 
   const parseDateTime = dateTimeString => {
     const dateTime = new Date(dateTimeString);
