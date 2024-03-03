@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface Customer {
   sno: number;
@@ -91,46 +100,46 @@ const CustomerTable: React.FC = () => {
         />
       </div>
       <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-50">
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('sno')}>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]" onClick={() => sortByColumn('sno')}>
                 Sno {sortDirections.sno === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('customer_name')}>
+              </TableHead>
+              <TableHead onClick={() => sortByColumn('customer_name')}>
                 Customer Name {sortDirections.customer_name === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('age')}>
+              </TableHead>
+              <TableHead onClick={() => sortByColumn('age')}>
                 Age {sortDirections.age === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('phone')}>
+              </TableHead>
+              <TableHead onClick={() => sortByColumn('phone')}>
                 Phone {sortDirections.phone === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('location')}>
+              </TableHead>
+              <TableHead onClick={() => sortByColumn('location')}>
                 Location {sortDirections.location === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('date')}>
+              </TableHead>
+              <TableHead onClick={() => sortByColumn('date')}>
                 Date {sortDirections.date === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase border-b cursor-pointer" onClick={() => sortByColumn('time')}>
+              </TableHead>
+              <TableHead onClick={() => sortByColumn('time')}>
                 Time {sortDirections.time === 'asc' ? <BsArrowUp /> : <BsArrowDown />}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {currentCustomers.map((customer, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                <td className="px-4 py-2 border">{customer.sno}</td>
-                <td className="px-4 py-2 border">{customer.customer_name}</td>
-                <td className="px-4 py-2 border">{customer.age}</td>
-                <td className="px-4 py-2 border">{customer.phone}</td>
-                <td className="px-4 py-2 border">{customer.location}</td>
-                <td className="px-4 py-2 border">{parseDateTime(customer.created_at).date}</td>
-                <td className="px-4 py-2 border">{parseDateTime(customer.created_at).time}</td>
-              </tr>
+              <TableRow key={index} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+                <TableCell>{customer.sno}</TableCell>
+                <TableCell>{customer.customer_name}</TableCell>
+                <TableCell>{customer.age}</TableCell>
+                <TableCell>{customer.phone}</TableCell>
+                <TableCell>{customer.location}</TableCell>
+                <TableCell>{parseDateTime(customer.created_at).date}</TableCell>
+                <TableCell>{parseDateTime(customer.created_at).time}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       <div className="flex justify-center mt-4">
         <button
