@@ -54,13 +54,17 @@ const CustomerTable: React.FC = () => {
 
   const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
 
-  const sortByColumn = (columnKey: keyof Customer): void => {
+  const sortByColumn = (columnKey: keyof Customer | 'date' | 'time'): void => {
     const direction: string = sortDirections[columnKey];
     const sortedCustomers: Customer[] = [...customers].sort((a, b) => {
-      if (direction === 'asc') {
-        return a[columnKey] > b[columnKey] ? 1 : -1;
+      if (columnKey === 'date' || columnKey === 'time') {
+        // Sort by parsed date values
+        const dateA = new Date(a.created_at).getTime();
+        const dateB = new Date(b.created_at).getTime();
+        return direction === 'asc' ? dateA - dateB : dateB - dateA;
       } else {
-        return a[columnKey] < b[columnKey] ? 1 : -1;
+        // Sort by other columns
+        return direction === 'asc' ? (a[columnKey] > b[columnKey] ? 1 : -1) : a[columnKey] < b[columnKey] ? 1 : -1;
       }
     });
     setCustomers(sortedCustomers);
