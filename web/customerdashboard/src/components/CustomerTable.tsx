@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BsArrowUp, BsArrowDown } from "react-icons/bs";
+import { parseDateTime } from "@/lib/utils";
 import {
   Table,
   TableBody,
@@ -104,16 +105,6 @@ const CustomerTable: React.FC = () => {
       [columnKey]: direction === "asc" ? "desc" : "asc",
     });
   };
-
-  const parseDateTime = (
-    dateTimeString: string
-  ): { date: string; time: string } => {
-    const dateTime = new Date(dateTimeString);
-    const date = dateTime.toLocaleDateString();
-    const time = dateTime.toLocaleTimeString();
-    return { date, time };
-  };
-
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-3xl font-semibold mb-6">Customers Table</h1>
